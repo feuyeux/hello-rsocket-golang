@@ -20,8 +20,9 @@ func RSocketAcceptor() rsocket.RSocket {
 	helloList := []string{"Hello", "Bonjour", "Hola", "こんにちは", "Ciao", "안녕하세요"}
 
 	return rsocket.NewAbstractSocket(
-		rsocket.MetadataPush(func(item payload.Payload) {
-			log.Println("[Responder::MetadataPush] GOT METADATA_PUSH:", item)
+		rsocket.MetadataPush(func(p payload.Payload) {
+			meta, _ := p.MetadataUTF8()
+			log.Println("[Responder::MetadataPush] GOT METADATA_PUSH:", meta)
 		}),
 		rsocket.FireAndForget(func(p payload.Payload) {
 			data := p.Data()
@@ -35,7 +36,7 @@ func RSocketAcceptor() rsocket.RSocket {
 			log.Println("[Responder::RequestResponse] data:", request, ", metadata:", metadata)
 			id := request.Id
 			index, _ := strconv.Atoi(id)
-			response := common.HelloResponse{Id: id, Name: helloList[index]}
+			response := common.HelloResponse{Id: id, Value: helloList[index]}
 			json, _ := response.ToJson()
 			meta, _ := p.Metadata()
 			rp := payload.New(json, meta)
@@ -57,7 +58,7 @@ func RSocketAcceptor() rsocket.RSocket {
 					default:
 						id := request.Ids[i]
 						index, _ := strconv.Atoi(id)
-						response := common.HelloResponse{Id: id, Name: helloList[index]}
+						response := common.HelloResponse{Id: id, Value: helloList[index]}
 						json, _ := response.ToJson()
 						meta, _ := p.Metadata()
 						rp := payload.New(json, meta)
@@ -74,14 +75,17 @@ func RSocketAcceptor() rsocket.RSocket {
 					SubscribeOn(scheduler.Elastic()).
 					DoOnNext(func(p payload.Payload) {
 						data := p.Data()
-						request := common.JsonToHelloRequest(data)
+						//request := common.JsonToHelloRequest(data)
+						request := common.JsonToHelloRequests(data)
 						metadata, _ := p.MetadataUTF8()
 						log.Println("[Responder::RequestChannel] data:", request, ", metadata:", metadata)
-						id := request.Id
-						index, _ := strconv.Atoi(id)
-						response := common.HelloResponse{Id: request.Id, Name: helloList[index]}
-						json, _ := response.ToJson()
-						sink.Next(payload.New(json, nil))
+						ids := request.Ids
+						for _, id := range ids {
+							index, _ := strconv.Atoi(id)
+							response := common.HelloResponse{Id: id, Value: helloList[index]}
+							json, _ := response.ToJson()
+							sink.Next(payload.New(json, nil))
+						}
 					}).
 					Subscribe(context.Background())
 				//sink.Complete()

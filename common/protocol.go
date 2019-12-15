@@ -14,7 +14,7 @@ type HelloRequests struct {
 
 type HelloResponse struct {
 	Id   string `json:"id"`
-	Name string `json:"name"`
+	Value string `json:"value"`
 }
 
 func (hello *HelloRequest) ToJson() ([]byte, error) {
