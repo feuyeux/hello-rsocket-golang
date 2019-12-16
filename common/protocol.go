@@ -13,7 +13,7 @@ type HelloRequests struct {
 }
 
 type HelloResponse struct {
-	Id   string `json:"id"`
+	Id    string `json:"id"`
 	Value string `json:"value"`
 }
 
@@ -25,7 +25,7 @@ func (hello *HelloRequest) ToJson() ([]byte, error) {
 
 func JsonToHelloRequest(jsonData []byte) HelloRequest {
 	var hello HelloRequest
-	json.Unmarshal(jsonData, &hello)
+	_ = json.Unmarshal(jsonData, &hello)
 	return hello
 }
 
@@ -37,7 +37,7 @@ func (hello *HelloRequests) ToJson() ([]byte, error) {
 
 func JsonToHelloRequests(jsonData []byte) HelloRequests {
 	var hello HelloRequests
-	json.Unmarshal(jsonData, &hello)
+	_ = json.Unmarshal(jsonData, &hello)
 	return hello
 }
 func (hello HelloResponse) ToJson() ([]byte, error) {
@@ -48,6 +48,6 @@ func (hello HelloResponse) ToJson() ([]byte, error) {
 
 func JsonToHelloResponse(jsonData []byte) HelloResponse {
 	var hello HelloResponse
-	json.Unmarshal(jsonData, &hello)
+	_ = json.Unmarshal(jsonData, &hello)
 	return hello
 }
