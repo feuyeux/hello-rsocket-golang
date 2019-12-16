@@ -9,6 +9,7 @@ import (
 
 func main() {
 	go responder.Start()
+	time.Sleep(100 * time.Millisecond)
 
 	requester.ExecMetaPush()
 	time.Sleep(100 * time.Millisecond)
