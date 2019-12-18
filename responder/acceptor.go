@@ -22,18 +22,18 @@ func RSocketAcceptor() rsocket.RSocket {
 	return rsocket.NewAbstractSocket(
 		rsocket.MetadataPush(func(p payload.Payload) {
 			meta, _ := p.MetadataUTF8()
-			log.Println("[Responder::MetadataPush] GOT METADATA_PUSH:", meta)
+			log.Println(">> [Responder::MetadataPush]: ", meta)
 		}),
 		rsocket.FireAndForget(func(p payload.Payload) {
 			data := p.Data()
 			request := common.JsonToHelloRequest(data)
-			log.Println("[Responder::FireAndForget] GOT FNF:", request.Id)
+			log.Println(">> [Responder::FireAndForget] FNF:", request.Id)
 		}),
 		rsocket.RequestResponse(func(p payload.Payload) mono.Mono {
 			data := p.Data()
 			request := common.JsonToHelloRequest(data)
 			metadata, _ := p.MetadataUTF8()
-			log.Println("[Responder::RequestResponse] data:", request, ", metadata:", metadata)
+			log.Println(">> [Responder::RequestResponse] data:", request, ", metadata:", metadata)
 			id := request.Id
 			index, _ := strconv.Atoi(id)
 			response := common.HelloResponse{Id: id, Value: helloList[index]}
@@ -45,15 +45,14 @@ func RSocketAcceptor() rsocket.RSocket {
 		rsocket.RequestStream(func(p payload.Payload) flux.Flux {
 			data := p.Data()
 			request := common.JsonToHelloRequests(data)
-			metadata, _ := p.MetadataUTF8()
-			log.Println("[Responder::RequestStream] data:", request, ", metadata:", metadata)
+			log.Println(">> [Responder::RequestStream] data:", request)
 
 			return flux.Create(func(ctx context.Context, emitter flux.Sink) {
 				for i := range request.Ids {
 					// You can use context for graceful coroutine shutdown, stop produce.
 					select {
 					case <-ctx.Done():
-						log.Println("[Responder::RequestStream] ctx done:", ctx.Err())
+						log.Println(">> [Responder::RequestStream] ctx done:", ctx.Err())
 						return
 					default:
 						id := request.Ids[i]
@@ -77,10 +76,8 @@ func RSocketAcceptor() rsocket.RSocket {
 						data := p.Data()
 						//request := common.JsonToHelloRequest(data)
 						request := common.JsonToHelloRequests(data)
-						metadata, _ := p.MetadataUTF8()
-						log.Println("[Responder::RequestChannel] data:", request, ", metadata:", metadata)
-						ids := request.Ids
-						for _, id := range ids {
+						log.Println(">> [Responder::RequestChannel] data:", request)
+						for _, id := range request.Ids {
 							index, _ := strconv.Atoi(id)
 							response := common.HelloResponse{Id: id, Value: helloList[index]}
 							json, _ := response.ToJson()

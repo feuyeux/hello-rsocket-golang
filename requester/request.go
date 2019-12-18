@@ -47,7 +47,7 @@ func ExecRequestResponse() {
 	//redisClient.Set("2019-12-09-RSOCKET", string(data))
 	//redisData := redisClient.Get("2019-12-09-RSOCKET")
 	//log.Println("[Request-Response] redisData:", redisData)
-	log.Println("[Request-Response] response id:", response.Id, ",value:", response.Value)
+	log.Println("<< [Request-Response] response id:", response.Id, ",value:", response.Value)
 }
 
 func ExecRequestStream() {
@@ -62,7 +62,7 @@ func ExecRequestStream() {
 	json, _ := request.ToJson()
 	p := payload.New(json, []byte(Now()))
 	f := cli.RequestStream(p)
-	PrintFlux(f, "[Request-Stream]")
+	PrintFlux(f, "<< [Request-Stream]")
 }
 
 func ExecRequestChannel() {
@@ -85,7 +85,7 @@ func ExecRequestChannel() {
 	})
 
 	f := cli.RequestChannel(send)
-	PrintFlux(f, "[Request-Channel]")
+	PrintFlux(f, "<< [Request-Channel]")
 }
 
 func RandomIds(max int) []string {
