@@ -47,7 +47,7 @@ func ExecRequestResponse() {
 	//redisClient.Set("2019-12-09-RSOCKET", string(data))
 	//redisData := redisClient.Get("2019-12-09-RSOCKET")
 	//log.Println("[Request-Response] redisData:", redisData)
-	log.Println("<< [Request-Response] response id:", response.Id, ",value:", response.Value)
+	log.Println("<< [Request-Response] response id:", response.Id, ", value:", response.Value)
 }
 
 func ExecRequestStream() {
@@ -119,7 +119,7 @@ func PrintFlux(f flux.Flux, s string) {
 		DoOnNext(func(p payload.Payload) {
 			data := p.Data()
 			response := common.JsonToHelloResponse(data)
-			log.Println(s, "response:", response)
+			log.Println(s, "response id:", response.Id, ", value:", response.Value)
 		}).
 		BlockLast(context.Background())
 }

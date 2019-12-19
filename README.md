@@ -4,37 +4,36 @@
 
 ```bash
 ▶ go run main.go
+2019/12/19 ====ExecMetaPush====
+2019/12/19 >> [MetadataPush]:  GOLANG
 
-2019/12/15 22:17:39 ====ExecMetaPush====
-2019/12/15 22:17:39 [Responder::MetadataPush] GOT METADATA_PUSH: GOLANG
+2019/12/19 ====ExecFireAndForget====
+2019/12/19 >> [FireAndForget] FNF: 1
 
-2019/12/15 22:17:39 ====ExecFireAndForget====
-2019/12/15 22:17:39 [Responder::FireAndForget] GOT FNF: 1
+2019/12/19 ====ExecRequestResponse====
+2019/12/19 >> [Request-Response] data: {1} , metadata: 2019-12-19 16:30:59,059
+2019/12/19 << [Request-Response] response id: 1 , value: Bonjour
 
-2019/12/15 22:17:39 ====ExecRequestResponse====
-2019/12/15 22:17:39 [Responder::RequestResponse] data: {1} , metadata: 2019-12-15 22:17:39,039
-2019/12/15 22:17:39 [Request-Response] response id: 1 ,value: Bonjour
+2019/12/19 ====ExecRequestStream====
+2019/12/19 >> [Request-Stream] data: {[1 2 2 4 1]}
+2019/12/19 << [Request-Stream] response id: 1 , value: Bonjour
+2019/12/19 << [Request-Stream] response id: 2 , value: Hola
+2019/12/19 << [Request-Stream] response id: 2 , value: Hola
+2019/12/19 << [Request-Stream] response id: 4 , value: Ciao
+2019/12/19 << [Request-Stream] response id: 1 , value: Bonjour
 
-2019/12/15 22:17:39 ====ExecRequestStream====
-2019/12/15 22:17:39 [Responder::RequestStream] data: {[1 2 2 4 1]} , metadata: 2019-12-15 22:17:39,039
-2019/12/15 22:17:39 [Request-Stream] response: {1 Bonjour}
-2019/12/15 22:17:40 [Request-Stream] response: {2 Hola}
-2019/12/15 22:17:40 [Request-Stream] response: {2 Hola}
-2019/12/15 22:17:41 [Request-Stream] response: {4 Ciao}
-2019/12/15 22:17:41 [Request-Stream] response: {1 Bonjour}
-
-2019/12/15 22:17:42 ====ExecRequestChannel====
-2019/12/15 22:17:42 [Responder::RequestChannel] data: {[0 1 2]} , metadata: 2019-12-15 22:17:42,042
-2019/12/15 22:17:42 [Request-Channel] response: {0 Hello}
-2019/12/15 22:17:42 [Request-Channel] response: {1 Bonjour}
-2019/12/15 22:17:42 [Request-Channel] response: {2 Hola}
-2019/12/15 22:17:42 [Responder::RequestChannel] data: {[1 0 2]} , metadata: 2019-12-15 22:17:42,042
-2019/12/15 22:17:42 [Request-Channel] response: {1 Bonjour}
-2019/12/15 22:17:42 [Request-Channel] response: {0 Hello}
-2019/12/15 22:17:42 [Request-Channel] response: {2 Hola}
-2019/12/15 22:17:42 [Responder::RequestChannel] data: {[1 0 2]} , metadata: 2019-12-15 22:17:42,042
-2019/12/15 22:17:42 [Request-Channel] response: {1 Bonjour}
-2019/12/15 22:17:42 [Request-Channel] response: {0 Hello}
-2019/12/15 22:17:42 [Request-Channel] response: {2 Hola}
+2019/12/19 ====ExecRequestChannel====
+2019/12/19 >> [Request-Channel] data: {[0 1 2]}
+2019/12/19 << [Request-Channel] response id: 0 , value: Hello
+2019/12/19 << [Request-Channel] response id: 1 , value: Bonjour
+2019/12/19 << [Request-Channel] response id: 2 , value: Hola
+2019/12/19 >> [Request-Channel] data: {[1 0 2]}
+2019/12/19 << [Request-Channel] response id: 1 , value: Bonjour
+2019/12/19 << [Request-Channel] response id: 0 , value: Hello
+2019/12/19 << [Request-Channel] response id: 2 , value: Hola
+2019/12/19 >> [Request-Channel] data: {[1 0 2]}
+2019/12/19 << [Request-Channel] response id: 1 , value: Bonjour
+2019/12/19 << [Request-Channel] response id: 0 , value: Hello
+2019/12/19 << [Request-Channel] response id: 2 , value: Hola
 
 ```

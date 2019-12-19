@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"time"
 
 	"github.com/feuyeux/hello-rsocket/requester"
@@ -8,6 +9,8 @@ import (
 )
 
 func main() {
+	log.SetFlags(log.Ldate)
+
 	go responder.Start()
 	time.Sleep(100 * time.Millisecond)
 

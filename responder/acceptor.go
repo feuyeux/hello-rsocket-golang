@@ -22,18 +22,18 @@ func RSocketAcceptor() rsocket.RSocket {
 	return rsocket.NewAbstractSocket(
 		rsocket.MetadataPush(func(p payload.Payload) {
 			meta, _ := p.MetadataUTF8()
-			log.Println(">> [Responder::MetadataPush]: ", meta)
+			log.Println(">> [MetadataPush]: ", meta)
 		}),
 		rsocket.FireAndForget(func(p payload.Payload) {
 			data := p.Data()
 			request := common.JsonToHelloRequest(data)
-			log.Println(">> [Responder::FireAndForget] FNF:", request.Id)
+			log.Println(">> [FireAndForget] FNF:", request.Id)
 		}),
 		rsocket.RequestResponse(func(p payload.Payload) mono.Mono {
 			data := p.Data()
 			request := common.JsonToHelloRequest(data)
 			metadata, _ := p.MetadataUTF8()
-			log.Println(">> [Responder::RequestResponse] data:", request, ", metadata:", metadata)
+			log.Println(">> [Request-Response] data:", request, ", metadata:", metadata)
 			id := request.Id
 			index, _ := strconv.Atoi(id)
 			response := common.HelloResponse{Id: id, Value: helloList[index]}
@@ -45,14 +45,14 @@ func RSocketAcceptor() rsocket.RSocket {
 		rsocket.RequestStream(func(p payload.Payload) flux.Flux {
 			data := p.Data()
 			request := common.JsonToHelloRequests(data)
-			log.Println(">> [Responder::RequestStream] data:", request)
+			log.Println(">> [Request-Stream] data:", request)
 
 			return flux.Create(func(ctx context.Context, emitter flux.Sink) {
 				for i := range request.Ids {
 					// You can use context for graceful coroutine shutdown, stop produce.
 					select {
 					case <-ctx.Done():
-						log.Println(">> [Responder::RequestStream] ctx done:", ctx.Err())
+						log.Println(">> [Request-Stream] ctx done:", ctx.Err())
 						return
 					default:
 						id := request.Ids[i]
@@ -76,7 +76,7 @@ func RSocketAcceptor() rsocket.RSocket {
 						data := p.Data()
 						//request := common.JsonToHelloRequest(data)
 						request := common.JsonToHelloRequests(data)
-						log.Println(">> [Responder::RequestChannel] data:", request)
+						log.Println(">> [Request-Channel] data:", request)
 						for _, id := range request.Ids {
 							index, _ := strconv.Atoi(id)
 							response := common.HelloResponse{Id: id, Value: helloList[index]}
