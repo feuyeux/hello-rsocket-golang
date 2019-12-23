@@ -38,8 +38,12 @@ func ExecRequestResponse() {
 	// Send request
 	request := &common.HelloRequest{Id: "1"}
 	json, _ := request.ToJson()
-	p := payload.New(json, []byte(Now()))
-	result, _ := client.RequestResponse(p).Block(context.Background())
+	//p := payload.New(json, []byte(Now()))
+	p := payload.New(json, nil)
+	result, err := client.RequestResponse(p).Block(context.Background())
+	if err != nil {
+		log.Println(err)
+	}
 	data := result.Data()
 	response := common.JsonToHelloResponse(data)
 	//redisClient := common.RedisClient{}

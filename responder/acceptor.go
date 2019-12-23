@@ -16,13 +16,13 @@ import (
 	"github.com/rsocket/rsocket-go/rx/mono"
 )
 
-func RSocketAcceptor() rsocket.RSocket {
+func HelloRSocket() rsocket.RSocket {
 	helloList := []string{"Hello", "Bonjour", "Hola", "こんにちは", "Ciao", "안녕하세요"}
 
 	return rsocket.NewAbstractSocket(
 		rsocket.MetadataPush(func(p payload.Payload) {
 			meta, _ := p.MetadataUTF8()
-			log.Println(">> [MetadataPush]: ", meta)
+			log.Println(">> [MetadataPush]:", meta)
 		}),
 		rsocket.FireAndForget(func(p payload.Payload) {
 			data := p.Data()
@@ -39,8 +39,7 @@ func RSocketAcceptor() rsocket.RSocket {
 			response := common.HelloResponse{Id: id, Value: helloList[index]}
 			json, _ := response.ToJson()
 			meta, _ := p.Metadata()
-			rp := payload.New(json, meta)
-			return mono.Just(rp)
+			return mono.Just(payload.New(json, meta))
 		}),
 		rsocket.RequestStream(func(p payload.Payload) flux.Flux {
 			data := p.Data()

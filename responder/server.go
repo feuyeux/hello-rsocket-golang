@@ -12,7 +12,6 @@ import (
 
 func Start() {
 	err := rsocket.Receive().
-		Resume().
 		Fragment(1024).
 		Acceptor(
 			func(setup payload.SetupPayload, sendingSocket rsocket.CloseableRSocket) (rsocket.RSocket, error) {
@@ -23,7 +22,7 @@ func Start() {
 				if strings.EqualFold(setup.DataUTF8(), "REJECT_ME") {
 					return nil, errors.New("bye bye bye")
 				}
-				return RSocketAcceptor(), nil
+				return HelloRSocket(), nil
 			}).
 		Transport("tcp://127.0.0.1:7878").
 		Serve(context.Background())

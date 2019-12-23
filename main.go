@@ -9,23 +9,46 @@ import (
 )
 
 func main() {
-	log.SetFlags(log.Ldate)
+	//log.SetFlags(log.Ldate)
+	log.SetFlags(log.Lmicroseconds)
+	//startServer()
+	runAll()
+}
 
-	go responder.Start()
-	time.Sleep(100 * time.Millisecond)
+func runAll() {
+	metaPush()
+	fnf()
+	rr()
+	rs()
+	rc()
+}
 
-	requester.ExecMetaPush()
-	time.Sleep(100 * time.Millisecond)
-
-	requester.ExecFireAndForget()
-	time.Sleep(100 * time.Millisecond)
-
-	requester.ExecRequestResponse()
-	time.Sleep(100 * time.Millisecond)
-
-	requester.ExecRequestStream()
-	time.Sleep(200 * time.Millisecond)
-
+func rc() {
 	go requester.ExecRequestChannel()
 	time.Sleep(5 * time.Second)
+}
+
+func rs() {
+	requester.ExecRequestStream()
+	time.Sleep(200 * time.Millisecond)
+}
+
+func rr() {
+	requester.ExecRequestResponse()
+	time.Sleep(100 * time.Millisecond)
+}
+
+func fnf() {
+	requester.ExecFireAndForget()
+	time.Sleep(100 * time.Millisecond)
+}
+
+func metaPush() {
+	requester.ExecMetaPush()
+	time.Sleep(100 * time.Millisecond)
+}
+
+func startServer() {
+	go responder.Start()
+	time.Sleep(100 * time.Millisecond)
 }
