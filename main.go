@@ -9,13 +9,16 @@ import (
 )
 
 func main() {
+	isBlockServer := false
+
 	//log.SetFlags(log.Ldate)
 	log.SetFlags(log.Lmicroseconds)
-	//startServer()
-	runAll()
+
+	runResponse(isBlockServer)
+	runRequest()
 }
 
-func runAll() {
+func runRequest() {
 	metaPush()
 	fnf()
 	rr()
@@ -48,7 +51,11 @@ func metaPush() {
 	time.Sleep(100 * time.Millisecond)
 }
 
-func startServer() {
-	go responder.Start()
-	time.Sleep(100 * time.Millisecond)
+func runResponse(block bool) {
+	if block {
+		responder.Start()
+	} else {
+		go responder.Start()
+		time.Sleep(100 * time.Millisecond)
+	}
 }
