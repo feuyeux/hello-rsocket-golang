@@ -9,13 +9,23 @@ import (
 )
 
 func main() {
-	isBlockServer := false
+	isRunServer := true
+	isRunClient := true
 
 	//log.SetFlags(log.Ldate)
 	log.SetFlags(log.Lmicroseconds)
 
-	runResponse(isBlockServer)
-	runRequest()
+	if isRunServer {
+		if isRunClient {
+			runResponse(false)
+		} else {
+			runResponse(true)
+		}
+	}
+
+	if isRunClient {
+		runRequest()
+	}
 }
 
 func runRequest() {
