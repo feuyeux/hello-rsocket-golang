@@ -2,7 +2,7 @@ package responder
 
 import (
 	"context"
-	"github.com/feuyeux/hello-rsocket/common"
+	"github.com/feuyeux/hello-rsocket/src/common"
 	"github.com/jjeffcaii/reactor-go/scheduler"
 	"log"
 	"strconv"

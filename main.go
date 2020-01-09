@@ -4,8 +4,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/feuyeux/hello-rsocket/requester"
-	"github.com/feuyeux/hello-rsocket/responder"
+	"github.com/feuyeux/hello-rsocket/src/requester"
+	"github.com/feuyeux/hello-rsocket/src/responder"
 )
 
 func main() {

@@ -3,7 +3,7 @@ package requester
 import (
 	"context"
 	"fmt"
-	"github.com/feuyeux/hello-rsocket/common"
+	"github.com/feuyeux/hello-rsocket/src/common"
 	"github.com/rsocket/rsocket-go/payload"
 	"github.com/rsocket/rsocket-go/rx/flux"
 	"log"
