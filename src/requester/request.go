@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/feuyeux/hello-rsocket/src/common"
+	"github.com/rsocket/rsocket-go"
 	"github.com/rsocket/rsocket-go/payload"
 	"github.com/rsocket/rsocket-go/rx/flux"
 	"log"
@@ -12,10 +13,12 @@ import (
 	"time"
 )
 
+var TLS bool
+
 func ExecMetaPush() {
 	fmt.Println()
 	log.Println("====ExecMetaPush====")
-	client, _ := BuildClient()
+	client, _ := buildClient()
 	defer client.Close()
 	client.MetadataPush(payload.New(nil, []byte("GOLANG")))
 }
@@ -23,7 +26,7 @@ func ExecMetaPush() {
 func ExecFireAndForget() {
 	fmt.Println()
 	log.Println("====ExecFireAndForget====")
-	client, _ := BuildClient()
+	client, _ := buildClient()
 	defer client.Close()
 	request := &common.HelloRequest{Id: "1"}
 	json, _ := request.ToJson()
@@ -33,7 +36,7 @@ func ExecFireAndForget() {
 func ExecRequestResponse() {
 	fmt.Println()
 	log.Println("====ExecRequestResponse====")
-	client, _ := BuildClient()
+	client, _ := buildClient()
 	defer client.Close()
 	// Send request
 	request := &common.HelloRequest{Id: "1"}
@@ -54,10 +57,18 @@ func ExecRequestResponse() {
 	log.Println("<< [Request-Response] response id:", response.Id, ", value:", response.Value)
 }
 
+func buildClient() (rsocket.Client, error) {
+	if TLS {
+		return BuildTlsClient()
+	} else {
+		return BuildClient()
+	}
+}
+
 func ExecRequestStream() {
 	fmt.Println()
 	log.Println("====ExecRequestStream====")
-	cli, _ := BuildClient()
+	cli, _ := buildClient()
 	defer cli.Close()
 	ids := RandomIds(5)
 
@@ -72,7 +83,7 @@ func ExecRequestStream() {
 func ExecRequestChannel() {
 	fmt.Println()
 	log.Println("====ExecRequestChannel====")
-	cli, _ := BuildClient()
+	cli, _ := buildClient()
 	defer cli.Close()
 
 	send := flux.Create(func(i context.Context, sink flux.Sink) {

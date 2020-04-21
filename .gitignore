@@ -40,3 +40,4 @@ go.sum
 
 Cargo.lock
 target/
+/hello-rsocket

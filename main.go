@@ -1,14 +1,15 @@
 package main
 
 import (
+	"github.com/feuyeux/hello-rsocket/src/responder"
 	"log"
 	"time"
 
 	"github.com/feuyeux/hello-rsocket/src/requester"
-	"github.com/feuyeux/hello-rsocket/src/responder"
 )
 
 func main() {
+	TLS := false
 	isRunServer := true
 	isRunClient := true
 
@@ -17,18 +18,34 @@ func main() {
 
 	if isRunServer {
 		if isRunClient {
-			runResponse(false)
+			runResponse(false, TLS)
 		} else {
-			runResponse(true)
+			runResponse(true, TLS)
 		}
 	}
 
 	if isRunClient {
-		runRequest()
+		runRequest(TLS)
 	}
 }
 
-func runRequest() {
+func runResponse(block bool, TLS bool) {
+	if block {
+		startServer(TLS)
+	} else {
+		go startServer(TLS)
+		time.Sleep(100 * time.Millisecond)
+	}
+}
+func startServer(TLS bool) {
+	if TLS {
+		responder.StartTls()
+	} else {
+		responder.Start()
+	}
+}
+func runRequest(TLS bool) {
+	requester.TLS = TLS
 	metaPush()
 	fnf()
 	rr()
@@ -59,13 +76,4 @@ func fnf() {
 func metaPush() {
 	requester.ExecMetaPush()
 	time.Sleep(100 * time.Millisecond)
-}
-
-func runResponse(block bool) {
-	if block {
-		responder.Start()
-	} else {
-		go responder.Start()
-		time.Sleep(100 * time.Millisecond)
-	}
 }
