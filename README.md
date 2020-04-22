@@ -1,28 +1,34 @@
 ## hello-rsocket-golang
-
-![](https://github.com/feuyeux/hello-rsocket/blob/master/doc/hello-rsocket.png)
-
+### START&TEST
 ```bash
 ▶ go run main.go
+```
+
+#### MetaPush
+```bash
 2019/12/19 ====ExecMetaPush====
 2019/12/19 >> [MetadataPush]:  GOLANG
-
-2019/12/19 ====ExecFireAndForget====
+```
+#### FireAndForget
+```bash
 2019/12/19 >> [FireAndForget] FNF: 1
-
-2019/12/19 ====ExecRequestResponse====
+```
+#### Request-Response
+```bash
 2019/12/19 >> [Request-Response] data: {1} , metadata: 2019-12-19 16:30:59,059
 2019/12/19 << [Request-Response] response id: 1 , value: Bonjour
-
-2019/12/19 ====ExecRequestStream====
+```
+#### Request-Stream
+```bash
 2019/12/19 >> [Request-Stream] data: {[1 2 2 4 1]}
 2019/12/19 << [Request-Stream] response id: 1 , value: Bonjour
 2019/12/19 << [Request-Stream] response id: 2 , value: Hola
 2019/12/19 << [Request-Stream] response id: 2 , value: Hola
 2019/12/19 << [Request-Stream] response id: 4 , value: Ciao
 2019/12/19 << [Request-Stream] response id: 1 , value: Bonjour
-
-2019/12/19 ====ExecRequestChannel====
+```
+#### Request-Channel
+```bash
 2019/12/19 >> [Request-Channel] data: {[0 1 2]}
 2019/12/19 << [Request-Channel] response id: 0 , value: Hello
 2019/12/19 << [Request-Channel] response id: 1 , value: Bonjour
@@ -35,5 +41,6 @@
 2019/12/19 << [Request-Channel] response id: 1 , value: Bonjour
 2019/12/19 << [Request-Channel] response id: 0 , value: Hello
 2019/12/19 << [Request-Channel] response id: 2 , value: Hola
-
 ```
+### More
+- rsocket security: https://github.com/feuyeux/hello-rsocket-security-golang

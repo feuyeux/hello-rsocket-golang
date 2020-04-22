@@ -9,7 +9,6 @@ import (
 )
 
 func main() {
-	TLS := false
 	isRunServer := true
 	isRunClient := true
 
@@ -18,34 +17,29 @@ func main() {
 
 	if isRunServer {
 		if isRunClient {
-			runResponse(false, TLS)
+			runResponse(false)
 		} else {
-			runResponse(true, TLS)
+			runResponse(true)
 		}
 	}
 
 	if isRunClient {
-		runRequest(TLS)
+		runRequest()
 	}
 }
 
-func runResponse(block bool, TLS bool) {
+func runResponse(block bool) {
 	if block {
-		startServer(TLS)
+		startServer()
 	} else {
-		go startServer(TLS)
+		go startServer()
 		time.Sleep(100 * time.Millisecond)
 	}
 }
-func startServer(TLS bool) {
-	if TLS {
-		responder.StartTls()
-	} else {
-		responder.Start()
-	}
+func startServer( ) {
+	responder.Start()
 }
-func runRequest(TLS bool) {
-	requester.TLS = TLS
+func runRequest( ) {
 	metaPush()
 	fnf()
 	rr()

@@ -13,8 +13,6 @@ import (
 	"time"
 )
 
-var TLS bool
-
 func ExecMetaPush() {
 	fmt.Println()
 	log.Println("====ExecMetaPush====")
@@ -58,11 +56,7 @@ func ExecRequestResponse() {
 }
 
 func buildClient() (rsocket.Client, error) {
-	if TLS {
-		return BuildTlsClient()
-	} else {
-		return BuildClient()
-	}
+	return BuildClient()
 }
 
 func ExecRequestStream() {
